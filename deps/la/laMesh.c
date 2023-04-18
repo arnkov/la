@@ -1,3 +1,5 @@
+#pragma once
+
 #include "laMesh.h"
 #include "laLog.h"
 
