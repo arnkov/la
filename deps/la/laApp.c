@@ -1,5 +1,5 @@
 #include "laApp.h"
-#include "log.h"
+#include "laLog.h"
 
 
 void laInit(int major, int minor) {
@@ -7,27 +7,27 @@ void laInit(int major, int minor) {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, major);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minor);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	log_info("OpenGL version: %d.%d", major, minor);
+	laLogInfo("OpenGL version: %d.%d", major, minor);
 }
 
 GLFWwindow* laCreateWindow(int width, int height, const char* title) {
 
 	GLFWwindow* window = glfwCreateWindow(width, height, title, NULL, NULL);
 	if (window == NULL) {
-		log_error("Failed to create GLFW window");
+		laLogError("Failed to create GLFW window");
 		glfwTerminate();
 		return NULL;
 	}
 	glfwMakeContextCurrent(window);
-
+	
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-		log_error("Failed to initialize GLAD");
+		laLogError("Failed to initialize GLAD");
 		return NULL;
 	}
 
 	glViewport(0, 0, width, height);
 
-	log_info("Viewport: %d, %d, %d, %d", 0, 0, width, height);
+	laLogInfo("Viewport: %d, %d, %d, %d", 0, 0, width, height);
 
 	return window;
 }
@@ -47,7 +47,7 @@ float laGetHeight(GLFWwindow* window) {
 void laSetVsync(bool vsync) {
 	if (vsync) {
 		glfwSwapInterval(1);
-		log_info("Vsync enabled");
+		laLogInfo("Vsync enabled");
 	}
 	else {
 		glfwSwapInterval(0);
@@ -93,5 +93,5 @@ void laEnableDepthTest() {
 
 void laTerminate() {
 	glfwTerminate();
-	log_info("la terminated");
+	laLogInfo("la terminated");
 }

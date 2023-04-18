@@ -1,7 +1,7 @@
 #include "laTexture.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-#include "log.h"
+#include "laLog.h"
 
 void laSetupTexture(GLuint* texture) {
 	glGenTextures(1, texture);
@@ -11,12 +11,12 @@ void laSetupTexture(GLuint* texture) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	log_info("Texture created: %d", *texture);
+	laLogInfo("Texture created: %d", *texture);
 }
 
 void laDeleteTexture(GLuint* texture) {
 	glDeleteTextures(1, texture);
-	log_info("Texture deleted: %d", *texture);
+	laLogInfo("Texture deleted: %d", *texture);
 }
 
 void laTexFromImage(GLuint* texture, const char* path, int format, bool flip) {
@@ -28,11 +28,11 @@ void laTexFromImage(GLuint* texture, const char* path, int format, bool flip) {
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
-		log_info("Texture loaded: %d", *texture);
+		laLogInfo("Texture loaded: %d", *texture);
 	}
 	else
 	{
-		log_error("Failed to load texture");
+		laLogInfo("Failed to load texture");
 	}
 	stbi_image_free(data);
 }

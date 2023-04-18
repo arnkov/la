@@ -2,9 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(laApp)
 
-set(source main.c
-	deps/log/log.h
-	deps/log/log.c)
+set(source main.c)
 
 add_subdirectory(deps)
 
@@ -16,4 +14,3 @@ include_directories(deps/miniaudio)
 include_directories(deps/stb_image)
 include_directories(deps/glfw/include)
 include_directories(deps/glad/include)
-include_directories(deps/log)

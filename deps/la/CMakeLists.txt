@@ -13,8 +13,7 @@ set(laSource
 	laTexture.h
 	laTexture.c
 	laFile.h
-	cvector.h
-	HandMadeMath.h
+	laLog.h
 	)
 
 add_library(la STATIC ${laSource})

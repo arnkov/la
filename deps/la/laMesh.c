@@ -1,24 +1,24 @@
 #include "laMesh.h"
+#include "laLog.h"
 
 #define M_PI 3.14159265358979323846
 
-laMesh* laCreateMesh() {
-	laMesh* mesh = malloc(sizeof(laMesh));
-	glGenVertexArrays(1, &mesh->vao);
-	glGenBuffers(1, &mesh->vbo);
-	glGenBuffers(1, &mesh->ebo);
-	mesh->vertexCount = 0;
-	mesh->indexCount = 0;
+laMesh laCreateMesh() {
+	laMesh mesh = {0};
+	glGenVertexArrays(1, &mesh.vao);
+	glGenBuffers(1, &mesh.vbo);
+	glGenBuffers(1, &mesh.ebo);
+	mesh.vertexCount = 0;
+	mesh.indexCount = 0;
+	laLogDebug("laMesh created");
 	return mesh;
-	log_debug("laMesh created");
 }
 
-void laDeleteMesh(laMesh* mesh) {
+void laMeshDelete(laMesh* mesh) {
 	glDeleteVertexArrays(1, &mesh->vao);
 	glDeleteBuffers(1, &mesh->vbo);
 	glDeleteBuffers(1, &mesh->ebo);
-	free(mesh);
-	log_debug("laMesh deleted");
+	laLogDebug("laMesh deleted");
 }
 
 void laMeshSetRectangle(laMesh* mesh, float x, float y, float width, float height) {
@@ -35,7 +35,7 @@ void laMeshSetRectangle(laMesh* mesh, float x, float y, float width, float heigh
 		};
 	laMeshSetVertices(mesh, vertices, 4);
 	laMeshSetIndices(mesh, indices, 6);
-	log_debug("laMesh rectangle set");
+	laLogDebug("laMesh rectangle set");
 }
 
 void laMeshSetTriangle(laMesh* mesh, float x1, float y1, float x2, float y2, float x3, float y3) {
@@ -49,7 +49,7 @@ void laMeshSetTriangle(laMesh* mesh, float x1, float y1, float x2, float y2, flo
 			};
 	laMeshSetVertices(mesh, vertices, 3);
 	laMeshSetIndices(mesh, indices, 3);
-	log_debug("laMesh triangle set");
+	laLogDebug("laMesh triangle set");
 }
 
 void laMeshSetVertices(laMesh* mesh, float* vertices, int vertexCount) {
@@ -72,7 +72,7 @@ void laMeshSetVertices(laMesh* mesh, float* vertices, int vertexCount) {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	mesh->vertexCount = vertexCount;
-	log_debug("laMesh vertices set");
+	laLogDebug("laMesh vertices set");
 }
 
 void laMeshSetIndices(laMesh* mesh, unsigned int* indices, int indexCount) {
@@ -82,48 +82,10 @@ void laMeshSetIndices(laMesh* mesh, unsigned int* indices, int indexCount) {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	mesh->indexCount = indexCount;
-	log_debug("laMesh indices set");
+	laLogDebug("laMesh indices set");
 }
 
-void laMeshSetVerticesV(laMesh* mesh, cvector_vector_type(laVertex) vertices) {
-
-	glBindVertexArray(mesh->vao);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
-	glBufferData(GL_ARRAY_BUFFER, cvector_size(vertices) * sizeof(laVertex), vertices, GL_STATIC_DRAW);
-
-	//position
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(laVertex), (void*)0);
-	glEnableVertexAttribArray(0);
-	//color
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(laVertex), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-	//texCoord
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(laVertex), (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
-	//tangent
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(laVertex), (void*)(8 * sizeof(float)));
-	glEnableVertexAttribArray(3);
-	//normals
-	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(laVertex), (void*)(11 * sizeof(float)));
-	glEnableVertexAttribArray(4);
-
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-	mesh->vertexCount = cvector_size(vertices);
-	log_debug("laMesh vertices set");
-}
-
-void laMeshSetIndicesV(laMesh* mesh, cvector_vector_type(unsigned int) indices) {
-	glBindVertexArray(mesh->vao);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, cvector_size(indices) * sizeof(unsigned int), indices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-	mesh->indexCount = cvector_size(indices);
-	log_debug("laMesh indices set");
-}
-
+/*
 void laMeshAddVertex(laMesh* mesh, laVertex vertex) {
 	glBindVertexArray(mesh->vao);
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
@@ -141,7 +103,7 @@ void laMeshAddVertex(laMesh* mesh, laVertex vertex) {
 	mesh->vertexCount++;
 	log_debug("laMesh vertex added");
 }
-
+*/
 void laMeshAddIndex(laMesh* mesh, unsigned int index) {
 	glBindVertexArray(mesh->vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
@@ -149,7 +111,7 @@ void laMeshAddIndex(laMesh* mesh, unsigned int index) {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	mesh->indexCount++;
-	log_debug("laMesh index added");
+	laLogDebug("laMesh index added");
 }
 
 void laMeshDraw(laMesh* mesh) {

@@ -1,5 +1,5 @@
 #include "laShader.h"
-#include "log.h"
+#include "laLog.h"
 
 void laSetupShader(GLuint shaderProgram, const char* vertexShaderSource, const char* fragmentShaderSource) {
 
@@ -15,9 +15,9 @@ void laSetupShader(GLuint shaderProgram, const char* vertexShaderSource, const c
 	if (!success)
 	{
 		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		log_error("Vertex shader compilation failed:");
-		log_error(infoLog);
-	} else log_debug("Vertex shader compilation successful. %d", vertexShader);
+		laLogError("Vertex shader compilation failed:");
+		laLogError(infoLog);
+	} else laLogDebug("Vertex shader compilation successful. %d", vertexShader);
 
 	//create fragment shader
 	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -28,10 +28,10 @@ void laSetupShader(GLuint shaderProgram, const char* vertexShaderSource, const c
 	if (!success)
 	{
 		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		log_error("Fragment shader compilation failed:");
-		log_error(infoLog);
+		laLogError("Fragment shader compilation failed:");
+		laLogError(infoLog);
 	}
-	else log_debug("Fragment shader compilation successful. %d", fragmentShader);
+	else laLogDebug("Fragment shader compilation successful. %d", fragmentShader);
 
 	//create shader program
 	glAttachShader(shaderProgram, vertexShader);
@@ -42,10 +42,10 @@ void laSetupShader(GLuint shaderProgram, const char* vertexShaderSource, const c
 	if (!success)
 	{
 		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		log_error("Shader program linking failed:");
-		log_error(infoLog);
+		laLogError("Shader program linking failed:");
+		laLogError(infoLog);
 	}
-	else log_debug("Shader program linking successful: %d", shaderProgram);
+	else laLogDebug("Shader program linking successful: %d", shaderProgram);
 
 	//detach and delete shaders
 	glDetachShader(vertexShader, GL_VERTEX_SHADER);
@@ -56,7 +56,7 @@ void laSetupShader(GLuint shaderProgram, const char* vertexShaderSource, const c
 
 void laDeleteShader(GLuint shaderProgram) {
 	glDeleteProgram(shaderProgram);
-	log_info("deleted shader: %d", shaderProgram);
+	laLogInfo("deleted shader: %d", shaderProgram);
 }
 
 void laBeginShader(GLuint shaderProgram) {

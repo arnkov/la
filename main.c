@@ -3,11 +3,11 @@
 #include "laMesh.h"
 #include "laTexture.h"
 #include "laFile.h"
-
+#include "laLog.h"
 
 int main() {
-
-	log_set_level(LOG_DEBUG);
+	
+	laSetLogLevel(LOG_DEBUG);
 	laInit(3, 3);
 	GLFWwindow* window = laCreateWindow(800, 800, "laApp");
 	laSetVsync(true);
@@ -22,9 +22,9 @@ int main() {
 	laSetupShader(shader, vertexShaderSource, fragmentShaderSource);
 
 	//create the mesh
-	laMesh* mesh = laCreateMesh();
+	laMesh mesh = laCreateMesh();
 	laBeginShader(shader);
-	laMeshSetRectangle(mesh, -.5f, -.5f, 1.0f, 1.0f);
+	laMeshSetRectangle(&mesh, -.5f, -.5f, 1.0f, 1.0f);
 	laEndShader();
 
 	float width = laGetWidth(window);
@@ -40,15 +40,15 @@ int main() {
 		
 		laSetVec2(shader, "u_resolution", width, height);
 		
-		laMeshDraw(mesh);
+		laMeshDraw(&mesh);
 
 
 		laSwapBuffers(window);
 		laPollEvents();
 	}
 
+	laMeshDelete(&mesh);
 	laDeleteShader(shader);
-	laDeleteMesh(mesh);
 
 	laTerminate();
 
