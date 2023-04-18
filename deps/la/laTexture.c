@@ -32,7 +32,7 @@ void laTexFromImage(GLuint* texture, const char* path, int format, bool flip) {
 	}
 	else
 	{
-		laLogInfo("Failed to load texture");
+		laLogError("Failed to load texture");
 	}
 	stbi_image_free(data);
 }
