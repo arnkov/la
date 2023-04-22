@@ -47,7 +47,7 @@ void laMeshSetTriangle(laMesh* mesh, float x1, float y1, float x2, float y2, flo
 		x3, y3, 0.0f // bottom left
 	};
 	unsigned int indices[] = { 
-				0, 1, 2 // first Triangle
+				0, 1, 2 
 			};
 	laMeshSetVertices(mesh, vertices, 3);
 	laMeshSetIndices(mesh, indices, 3);
