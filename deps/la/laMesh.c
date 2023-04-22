@@ -31,7 +31,7 @@ void laMeshSetRectangle(laMesh* mesh, float x, float y, float width, float heigh
 		x, y + height, 0.0f // top left
 	};
 
-	unsigned int indices[] = { // note that we start from 0!
+	unsigned int indices[] = { 
 			0, 1, 3, // first Triangle
 			1, 2, 3 // second Triangle
 		};
@@ -46,7 +46,7 @@ void laMeshSetTriangle(laMesh* mesh, float x1, float y1, float x2, float y2, flo
 		x2, y2, 0.0f, // bottom right
 		x3, y3, 0.0f // bottom left
 	};
-	unsigned int indices[] = { // note that we start from 0!
+	unsigned int indices[] = { 
 				0, 1, 2 // first Triangle
 			};
 	laMeshSetVertices(mesh, vertices, 3);
